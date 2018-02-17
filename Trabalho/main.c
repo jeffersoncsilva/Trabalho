@@ -2,6 +2,19 @@
 #include <time.h>
 #include "ordena.h"
 
+/*
+OBS: tempo em milissegundos. A esquerda do ponto são segundos.
+ALGORITMO/QTD_ELEMENTOS|	100	 |  	1.000	|	10.000	|	100.000		|	1.000.000 
+BubleSort			   |	0	 |		6		|	835		|	12.6110		|		(mais de 2 horas)
+InsertionSort		   |	0	 |		1		|	177		|	16.230		|		(+- 1 hora)
+SelectionSort		   |	0	 |		2		|	428		|	44.165		|		(não medido)
+QuickSort			   |	0	 |		0		|	2		|	42			|		538
+HeapSort			   |	0	 |		10		|	1.500	|	17.6587		|		(não medido)
+ShellSort			   |	0	 |		2		|	269		|	31.572		|		(não medido)
+*/
+
+
+
 /*#define MAX 100000
 
 void shellSort(int *vetor, int tamanho)
@@ -89,7 +102,7 @@ int main() {
 	printf("\ntime: %f\n", time);*/
 
 	Lista *l = geraListaAleatoria(10, 50);
-	//mostraElementos(l);
+	mostraElementos(l);
 	printf("\ninicia shell\n");
 	t_ini = clock();
 	l = shellsort(l);

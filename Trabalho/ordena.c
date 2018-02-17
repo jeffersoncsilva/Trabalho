@@ -190,44 +190,29 @@ Lista* heapsort(Lista* l) {
 	return l;
 }
 
-No* buscaEsq(No* n, int h) {
-	while (n->id > h)
-		n = n->ant;
-	return n;
-}
-
+/*Problema: analizando a saida, percebe-se que em algumas vezes, o ponteiro no_ini, não atualiza o seu dado,
+pegando o dado do ponteiro anterior, mas o id e o proximo ponteiro e anterior muda, ficando a duvida sobre o que 
+acontece.*/
 Lista* shellsort(Lista* l) {
-	/*int tmp, i, j, h;
-	h = l->qtd / 2;
-	while (h > 0) {
-		i = h;
-		while (i < l->qtd) {
-			No *n = buscaNo(l, i);
-			tmp = n->dado;
-			j = i;
-			while (j >= h && tmp < buscaEsq(n, h)->dado) {
-				troca(n, buscaEsq(n, h));
-				j = j - h;
-			}
-			n = buscaNo(l, j);
-			n->dado = tmp;
-			i++;
-		}
-		h = h / 2;
-	}*/
 	No *no_ini;
 	No *no_salto;
-	int p = l->qtd/2;
-	no_ini = l->inicio;
+	int p = (l->qtd / 2)-1;
+
 	while (p > 0) {
-			no_salto = buscaN(no_ini, p, l->qtd);
-			while (no_salto != NULL) {
-				if (no_ini->dado > no_salto->dado) {
-					troca(no_ini, no_salto);
-				}
-				no_ini = no_ini->prox;
-				no_salto = buscaN(no_ini, p, l->qtd);
+		no_ini = l->inicio;
+		no_salto = buscaN(no_ini, p, l->qtd);
+		printf("\n\np: %d\n\n",p);
+		while (no_salto != NULL) {
+			printf("\nno_ini_id: %d -- no_ini_dado: %d ---- no_alto_id: %d --- no_salto_dado: %d", no_ini->id, no_ini->dado, no_salto->id, no_salto->dado);
+			if (no_ini->dado > no_salto->dado) {
+				troca(no_ini, no_salto);
 			}
+			no_ini = no_ini->prox;
+			no_salto = buscaN(no_ini, p, l->qtd);
+		}
+		printf("\n");
+		mostraElementos(l);
+		printf("\n");
 		p = p / 2;
 	}
 	return l;
