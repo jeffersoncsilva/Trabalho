@@ -249,9 +249,10 @@ void mostraElementos(Lista* l) {
 		printf("\n");
 		No* nav = l->inicio;
 		while (nav != NULL) {
-			printf(" \nID: %d --- V: %d",nav->id, nav->dado);
+			printf(" %d", nav->dado);
 			nav = nav->prox;
 		}
+		printf("\n");
 	}
 }
 

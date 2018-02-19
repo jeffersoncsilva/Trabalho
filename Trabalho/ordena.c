@@ -16,7 +16,9 @@ No* buscaN(No* ini, int pos, int max) {
 		return NULL;
 	else {
 		No *nav = ini;
-		while (nav->id < ini->id + pos)
+		/*while (nav->id < ini->id + pos)
+			nav = nav->prox;*/
+		for (int i = 0; i < pos; i++)
 			nav = nav->prox;
 		return nav;
 	}
@@ -36,17 +38,21 @@ Lista* bubblesort(Lista* l) {
 	int i;
 	No *aux;
 	No *prox;
-	for (i = tam; i >= 0; i--) {
+	bool ordenado;
+	//for (i = tam; i >= 0; i--) {
+	do{
+		ordenado = false;
 		aux = l->inicio;
 		while (aux != NULL && aux->prox != NULL) {
 			if (aux->dado > aux->prox->dado) {
 				int temp = aux->dado;
 				aux->dado = aux->prox->dado;
 				aux->prox->dado = temp;
+				ordenado = true;
 			}
 			aux = aux->prox;
 		}
-	}
+	} while (ordenado);
 	return l;
 }
 
@@ -190,31 +196,47 @@ Lista* heapsort(Lista* l) {
 	return l;
 }
 
+No* buscaEsq(No* a, int p) {
+	if (p < 0)
+		return NULL;
+	No *n = a;
+	/*for (int i = 0; n && i < p-1; i++) {*/
+	while(n->id > p){
+		n = n->ant;
+	}
+	return n;
+}
+
+No* buscaDir(No* i, int j) {
+	No *b = i;
+	for (int i = 0; b && i < j; i++)
+		b = b->prox;
+	return b;
+}
+
 /*Problema: analizando a saida, percebe-se que em algumas vezes, o ponteiro no_ini, não atualiza o seu dado,
 pegando o dado do ponteiro anterior, mas o id e o proximo ponteiro e anterior muda, ficando a duvida sobre o que 
 acontece.*/
 Lista* shellsort(Lista* l) {
-	No *no_ini;
-	No *no_salto;
-	int p = (l->qtd / 2)-1;
+	No *n_ini;
+	No *n_salt;
+	int h = 1;
+	while (h < l->qtd)
+		h = h * 3 + 1;
+	while (h > 1) {
+		h = h / 3;
+		n_ini = l->inicio;
+		while (n_ini) {
+			n_salt = buscaDir(n_ini, h);
+			while (n_salt && n_salt->dado < n_ini->dado) {
+				troca(n_salt, n_ini);
+				n_salt = buscaDir(n_salt, h);
+				mostraElementos(l);
 
-	while (p > 0) {
-		no_ini = l->inicio;
-		no_salto = buscaN(no_ini, p, l->qtd);
-		printf("\n\np: %d\n\n",p);
-		while (no_salto != NULL) {
-			printf("\nno_ini_id: %d -- no_ini_dado: %d ---- no_alto_id: %d --- no_salto_dado: %d", no_ini->id, no_ini->dado, no_salto->id, no_salto->dado);
-			if (no_ini->dado > no_salto->dado) {
-				troca(no_ini, no_salto);
 			}
-			no_ini = no_ini->prox;
-			no_salto = buscaN(no_ini, p, l->qtd);
+			n_ini = n_ini->prox;
 		}
-		printf("\n");
-		mostraElementos(l);
-		printf("\n");
-		p = p / 2;
-	}
+	}	
 	return l;
 }
 
